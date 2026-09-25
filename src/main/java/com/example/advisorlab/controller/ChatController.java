@@ -8,9 +8,11 @@ import com.example.advisorlab.controller.dto.ChatRequest;
 import com.example.advisorlab.service.ChatService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/chat")
+@Slf4j
 public class ChatController {
 
   private final ChatService chatService;
@@ -21,6 +23,8 @@ public class ChatController {
 
   @PostMapping
   public String chat(@RequestBody ChatRequest request) {
+
+    log.info("Request: {}", request);
 
     return chatService.chat(request.message());
   }
