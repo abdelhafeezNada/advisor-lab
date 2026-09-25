@@ -7,6 +7,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AiConfig {
 
+  /**
+   * application.properties
+   * │
+   * ▼
+   * Ollama auto-configuration
+   * │
+   * ▼
+   * OllamaChatModel
+   * │
+   * ▼
+   * ChatClient.Builder
+   *
+   */
   @Bean
   ChatClient chatClient(ChatClient.Builder builder) {
     return builder.build();
