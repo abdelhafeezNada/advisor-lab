@@ -33,7 +33,7 @@ public class RequestInspectionAdvisor implements CallAdvisor {
 
   @Override
   public int getOrder() {
-    return 0;
+    return 20;
   }
 
 }

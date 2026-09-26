@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.example.advisorlab.advisor.AdvisorA;
 import com.example.advisorlab.advisor.AdvisorB;
 import com.example.advisorlab.advisor.AdvisorC;
+import com.example.advisorlab.advisor.PromptEnrichmentAdvisor;
 import com.example.advisorlab.advisor.RequestInspectionAdvisor;
 import com.example.advisorlab.advisor.SimpleLoggingAdvisor;
 
@@ -54,8 +55,9 @@ public class AiConfig {
   // }
 
   @Bean
-  ChatClient chatClient(ChatClient.Builder builder, RequestInspectionAdvisor requestInspectionAdvisor) {
-    return builder.defaultAdvisors(requestInspectionAdvisor).build();
+  ChatClient chatClient(ChatClient.Builder builder, RequestInspectionAdvisor requestInspectionAdvisor,
+      PromptEnrichmentAdvisor promptEnrichmentAdvisor) {
+    return builder.defaultAdvisors(requestInspectionAdvisor, promptEnrichmentAdvisor).build();
   }
 
 }
