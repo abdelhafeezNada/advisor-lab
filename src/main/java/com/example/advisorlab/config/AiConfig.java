@@ -12,9 +12,16 @@ import com.example.advisorlab.advisor.RequestContextAdvisor;
 import com.example.advisorlab.advisor.RequestInspectionAdvisor;
 import com.example.advisorlab.advisor.SimpleLoggingAdvisor;
 import com.example.advisorlab.advisor.TimingAdvisor;
+import com.example.advisorlab.advisor.ValidationAdvisor;
 
 @Configuration
 public class AiConfig {
+
+  private final ValidationAdvisor validationAdvisor;
+
+  AiConfig(ValidationAdvisor validationAdvisor) {
+    this.validationAdvisor = validationAdvisor;
+  }
 
   /**
    * application.properties
@@ -59,9 +66,9 @@ public class AiConfig {
   @Bean
   ChatClient chatClient(ChatClient.Builder builder, RequestInspectionAdvisor requestInspectionAdvisor,
       PromptEnrichmentAdvisor promptEnrichmentAdvisor,
-      RequestContextAdvisor requestContextAdvisor, TimingAdvisor timingAdvisor) {
+      RequestContextAdvisor requestContextAdvisor, TimingAdvisor timingAdvisor, ValidationAdvisor ValidationAdvisor) {
     return builder.defaultAdvisors(requestInspectionAdvisor, promptEnrichmentAdvisor,
-        requestContextAdvisor, timingAdvisor)
+        requestContextAdvisor, timingAdvisor, validationAdvisor)
         .build();
   }
 
