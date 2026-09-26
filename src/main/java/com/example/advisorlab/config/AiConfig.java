@@ -4,6 +4,9 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.advisorlab.advisor.AdvisorA;
+import com.example.advisorlab.advisor.AdvisorB;
+import com.example.advisorlab.advisor.AdvisorC;
 import com.example.advisorlab.advisor.SimpleLoggingAdvisor;
 
 @Configuration
@@ -28,9 +31,25 @@ public class AiConfig {
    * ChatClient
    *
    */
+  // @Bean
+  // ChatClient chatClient(ChatClient.Builder builder, SimpleLoggingAdvisor
+  // simpleLoggingAdvisor) {
+  // return builder.defaultAdvisors(simpleLoggingAdvisor).build();
+  // }
+
   @Bean
-  ChatClient chatClient(ChatClient.Builder builder, SimpleLoggingAdvisor simpleLoggingAdvisor) {
-    return builder.defaultAdvisors(simpleLoggingAdvisor).build();
+  ChatClient chatClient(
+      ChatClient.Builder builder,
+      AdvisorA advisorC,
+      AdvisorB advisorB,
+      AdvisorC advisorA) {
+
+    return builder
+        .defaultAdvisors(
+            advisorA,
+            advisorB,
+            advisorC)
+        .build();
   }
 
 }
