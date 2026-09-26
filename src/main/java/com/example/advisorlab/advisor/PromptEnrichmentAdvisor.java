@@ -27,6 +27,8 @@ public class PromptEnrichmentAdvisor implements CallAdvisor {
   @Override
   public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
 
+    log.info("========== PromptEnrichmentAdvisor ==========");
+
     List<Message> messages = new ArrayList<>(chatClientRequest.prompt().getInstructions());
 
     messages.add(0, new SystemMessage(SYSTEM_MESSAGE));
@@ -37,6 +39,8 @@ public class PromptEnrichmentAdvisor implements CallAdvisor {
 
     log.info("Original request: {}", chatClientRequest.prompt());
     log.info("Mutated request: {}", mutatedChatClientRequest.prompt());
+
+    log.info("========================================");
 
     return callAdvisorChain.nextCall(mutatedChatClientRequest);
   }
