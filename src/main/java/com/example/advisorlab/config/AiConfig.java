@@ -11,6 +11,7 @@ import com.example.advisorlab.advisor.PromptEnrichmentAdvisor;
 import com.example.advisorlab.advisor.RequestContextAdvisor;
 import com.example.advisorlab.advisor.RequestInspectionAdvisor;
 import com.example.advisorlab.advisor.SimpleLoggingAdvisor;
+import com.example.advisorlab.advisor.TimingAdvisor;
 
 @Configuration
 public class AiConfig {
@@ -57,8 +58,11 @@ public class AiConfig {
 
   @Bean
   ChatClient chatClient(ChatClient.Builder builder, RequestInspectionAdvisor requestInspectionAdvisor,
-      PromptEnrichmentAdvisor promptEnrichmentAdvisor, RequestContextAdvisor requestContextAdvisor) {
-    return builder.defaultAdvisors(requestInspectionAdvisor, promptEnrichmentAdvisor, requestContextAdvisor).build();
+      PromptEnrichmentAdvisor promptEnrichmentAdvisor,
+      RequestContextAdvisor requestContextAdvisor, TimingAdvisor timingAdvisor) {
+    return builder.defaultAdvisors(requestInspectionAdvisor, promptEnrichmentAdvisor,
+        requestContextAdvisor, timingAdvisor)
+        .build();
   }
 
 }
