@@ -4,6 +4,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.advisorlab.advisor.ExceptionLoggingAdvisor;
 import com.example.advisorlab.advisor.FailureSimulationAdvisor;
 import com.example.advisorlab.advisor.PromptEnrichmentAdvisor;
 import com.example.advisorlab.advisor.RequestContextAdvisor;
@@ -65,9 +66,11 @@ public class AiConfig {
   ChatClient chatClient(ChatClient.Builder builder, RequestInspectionAdvisor requestInspectionAdvisor,
       PromptEnrichmentAdvisor promptEnrichmentAdvisor, FailureSimulationAdvisor failureSimulationAdvisor,
       RequestContextAdvisor requestContextAdvisor, TimingAdvisor timingAdvisor,
-      ValidationAdvisor ValidationAdvisor, ResponseInspectionAdvisor responseInspectionAdvisor) {
+      ValidationAdvisor ValidationAdvisor, ResponseInspectionAdvisor responseInspectionAdvisor,
+      ExceptionLoggingAdvisor exceptionLoggingAdvisor) {
     return builder.defaultAdvisors(requestInspectionAdvisor, promptEnrichmentAdvisor,
-        requestContextAdvisor, timingAdvisor, validationAdvisor, responseInspectionAdvisor, failureSimulationAdvisor)
+        requestContextAdvisor, timingAdvisor, validationAdvisor, responseInspectionAdvisor, failureSimulationAdvisor,
+        exceptionLoggingAdvisor)
         .build();
   }
 

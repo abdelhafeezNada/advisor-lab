@@ -19,39 +19,69 @@ import lombok.extern.slf4j.Slf4j;
 public class TimingAdvisor implements CallAdvisor {
 
   @Override
-  public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
-    log.info("========== TimingAdvisor ==========");
+  public ChatClientResponse adviseCall(
+      ChatClientRequest request,
+      CallAdvisorChain chain) {
 
-    Map<String, Object> context = chatClientRequest.context();
+    String requestId = (String) request.context().get("requestId");
 
-    String requestId = (String) context.get("requestId");
-    Long startTime = (Long) context.get("startTime");
-    log.info("TimingAdvisor received requestId={}", requestId);
+    long start = System.currentTimeMillis();
 
-    ChatClientResponse chatClientResponse = null;
+    log.info(
+        "TimingAdvisor received requestId={}",
+        requestId);
 
     try {
 
-      chatClientResponse = callAdvisorChain.nextCall(chatClientRequest);
-
-    } catch (Exception exception) {
-
-      AssistantMessage assistantMessage = new AssistantMessage(exception.getMessage());
-      Generation generation = new Generation(assistantMessage);
-      ChatResponse chatResponse = new ChatResponse(List.of(generation));
-
-      chatClientResponse = new ChatClientResponse(chatResponse, context);
+      return chain.nextCall(request);
 
     } finally {
 
-      Long duration = System.currentTimeMillis() - startTime;
+      long duration = System.currentTimeMillis() - start;
 
-      log.info("requestId={} completed in {} ms", requestId, duration);
+      log.info(
+          "requestId={} completed in {} ms",
+          requestId,
+          duration);
     }
-
-    return chatClientResponse;
-
   }
+
+  // @Override
+  // public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest,
+  // CallAdvisorChain callAdvisorChain) {
+  // log.info("========== TimingAdvisor ==========");
+
+  // Map<String, Object> context = chatClientRequest.context();
+
+  // String requestId = (String) context.get("requestId");
+  // Long startTime = (Long) context.get("startTime");
+  // log.info("TimingAdvisor received requestId={}", requestId);
+
+  // ChatClientResponse chatClientResponse = null;
+
+  // try {
+
+  // chatClientResponse = callAdvisorChain.nextCall(chatClientRequest);
+
+  // } catch (Exception exception) {
+
+  // AssistantMessage assistantMessage = new
+  // AssistantMessage(exception.getMessage());
+  // Generation generation = new Generation(assistantMessage);
+  // ChatResponse chatResponse = new ChatResponse(List.of(generation));
+
+  // chatClientResponse = new ChatClientResponse(chatResponse, context);
+
+  // } finally {
+
+  // Long duration = System.currentTimeMillis() - startTime;
+
+  // log.info("requestId={} completed in {} ms", requestId, duration);
+  // }
+
+  // return chatClientResponse;
+
+  // }
 
   @Override
   public String getName() {
